@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5">
+<title>Arun & Thigsheetha · Wedding Invitation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Great+Vibes&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ─── Reset & Base ─────────────────────────────────────── */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  background: #faf6f0;
+  color: #3a2a1a;
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+}
+
+/* ─── CSS Variables ─────────────────────────────────────── */
+:root {
+  --cream: #faf6f0;
+  --ivory: #f5ede0;
+  --warm-white: #fdf9f4;
+  --terracotta: #c4623a;
+  --deep-terracotta: #9b3d1e;
+  --blush: #e8c4a8;
+  --sage: #8a9e7a;
+  --dark-sage: #5c7050;
+  --gold: #c8943a;
+  --text-dark: #2a1a0a;
+  --text-mid: #6b4a2a;
+  --text-light: #a07850;
+  --max-w: 480px;
+}
+
+/* ─── ENVELOPE REVEAL ───────────────────────────────────── */
+#envelope-overlay {
+  position: fixed; inset: 0; z-index: 1000;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--cream);
+  transition: opacity 0.8s ease 0.3s;
+}
+#envelope-overlay.hidden { opacity: 0; pointer-events: none; }
+
+.envelope-wrap {
+  display: flex; flex-direction: column; align-items: center; gap: 32px;
+  animation: envelopeFadeIn 1s ease forwards;
+}
+@keyframes envelopeFadeIn {
+  from { opacity:0; transform: translateY(20px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+
+.envelope-svg-wrap {
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+.envelope-svg-wrap:hover { transform: scale(1.04); }
+
+.envelope-label {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 14px; font-style: italic;
+  color: var(--text-light); letter-spacing: 0.05em;
+  text-align: center;
+}
+.envelope-names {
+  font-family: 'Great Vibes', cursive;
+  font-size: 42px; color: var(--terracotta);
+  text-align: center; line-height: 1;
+}
+.open-btn {
+  padding: 14px 44px;
+  background: var(--terracotta);
+  color: #fff; border: none; cursor: pointer;
+  font-family: 'Jost', sans-serif;
+  font-size: 11px; font-weight: 400;
+  letter-spacing: 3px; text-transform: uppercase;
+  border-radius: 0;
+  transition: background 0.25s, transform 0.2s;
+}
+.open-btn:hover { background: var(--deep-terracotta); transform: translateY(-1px); }
+
+/* ─── MAIN CONTENT ──────────────────────────────────────── */
+#main-content {
+  opacity: 0; pointer-events: none;
+  transition: opacity 1s ease;
+}
+#main-content.visible { opacity: 1; pointer-events: auto; }
+
+/* ─── SECTION BASE ──────────────────────────────────────── */
+section {
+  width: 100%;
+  display: flex; flex-direction: column; align-items: center;
+}
+.section-inner {
+  width: 100%; max-width: var(--max-w);
+  padding: 0 28px;
+}
+
+/* ─── HERO ──────────────────────────────────────────────── */
+#hero {
+  min-height: 100svh;
+  background: var(--warm-white);
+  position: relative; overflow: hidden;
+  justify-content: center;
+  padding: 60px 0 40px;
+}
+
+/* Ambient glow blobs */
+.hero-blob {
+  position: absolute; border-radius: 50%;
+  filter: blur(60px); pointer-events: none;
+}
+.hero-blob-1 {
+  width: 400px; height: 400px;
+  background: rgba(196,98,58,0.08);
+  top: -100px; right: -100px;
+}
+.hero-blob-2 {
+  width: 300px; height: 300px;
+  background: rgba(138,158,122,0.1);
+  bottom: 0; left: -80px;
+}
+.hero-blob-3 {
+  width: 250px; height: 250px;
+  background: rgba(200,148,58,0.07);
+  top: 40%; left: 50%; transform: translate(-50%,-50%);
+}
+
+/* Falling petals */
+.petal {
+  position: absolute; pointer-events: none;
+  font-size: 14px; opacity: 0;
+  animation: petalFall linear infinite;
+}
+@keyframes petalFall {
+  0%   { opacity:0; transform: translateY(-20px) rotate(0deg); }
+  10%  { opacity: 0.6; }
+  90%  { opacity: 0.3; }
+  100% { opacity:0; transform: translateY(100vh) rotate(360deg); }
+}
+
+.hero-inner {
+  width: 100%; max-width: var(--max-w);
+  padding: 0 28px;
+  display: flex; flex-direction: column;
+  align-items: center; text-align: center;
+  position: relative; z-index: 2;
+}
+
+/* Lotus top ornament */
+.lotus-top {
+  margin-bottom: 24px;
+  animation: fadeSlideUp 1.2s ease 0.3s both;
+}
+
+.eyebrow {
+  font-size: 10px; font-weight: 400;
+  letter-spacing: 4px; text-transform: uppercase;
+  color: var(--text-light); margin-bottom: 12px;
+  animation: fadeSlideUp 1s ease 0.5s both;
+}
+
+.hero-invite-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px; font-style: italic; font-weight: 300;
+  color: var(--text-mid); margin-bottom: 28px; line-height: 1.6;
+  animation: fadeSlideUp 1s ease 0.65s both;
+}
+
+.hero-name {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(68px, 18vw, 92px);
+  color: var(--terracotta);
+  line-height: 1; margin: 0;
+  animation: fadeSlideUp 1s ease 0.8s both;
+}
+.hero-name-2 { animation-delay: 0.95s; }
+
+.and-divider {
+  display: flex; align-items: center; gap: 14px;
+  width: 200px; margin: 10px auto;
+  animation: fadeSlideUp 1s ease 0.88s both;
+}
+.and-line { flex:1; height:1px; background: rgba(160,120,80,0.3); }
+.and-word {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px; font-style: italic; color: var(--text-light);
+}
+
+.hero-date-block {
+  margin-top: 32px;
+  padding: 22px 32px;
+  border: 1px solid rgba(160,120,80,0.25);
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(8px);
+  text-align: center;
+  animation: fadeSlideUp 1s ease 1.1s both;
+}
+.hero-date-label {
+  font-size: 9px; font-weight: 400; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--text-light); margin-bottom: 8px;
+}
+.hero-date {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px; font-weight: 600; color: var(--text-dark);
+  line-height: 1.2;
+}
+.hero-date-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13px; font-style: italic; color: var(--text-light);
+  margin-top: 4px;
+}
+
+/* Scroll nudge */
+.scroll-nudge {
+  position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  animation: fadeSlideUp 1s ease 1.6s both;
+  z-index: 2;
+}
+.scroll-nudge span {
+  font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--text-light);
+}
+.scroll-arrow { animation: scrollBounce 1.8s ease infinite; }
+@keyframes scrollBounce {
+  0%,100% { transform: translateY(0); opacity:0.5; }
+  50%      { transform: translateY(6px); opacity:1; }
+}
+
+/* ─── DIVIDER MOTIF ─────────────────────────────────────── */
+.motif-divider {
+  padding: 40px 0;
+  display: flex; align-items: center; justify-content: center;
+  gap: 14px;
+  width: 100%; max-width: var(--max-w);
+}
+.motif-line { flex:1; height:1px; background: rgba(160,120,80,0.2); }
+.motif-icon { color: var(--gold); font-size: 16px; }
+
+/* ─── SECTION TITLE ─────────────────────────────────────── */
+.section-label {
+  font-size: 9px; font-weight: 400; letter-spacing: 5px;
+  text-transform: uppercase; color: var(--text-light);
+  margin-bottom: 10px; text-align: center;
+}
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 34px; font-style: italic; font-weight: 400;
+  color: var(--text-dark); text-align: center;
+  line-height: 1.2; margin-bottom: 8px;
+}
+.section-body {
+  font-size: 14px; font-weight: 300; line-height: 1.9;
+  color: var(--text-mid); text-align: center;
+}
+
+/* ─── COUNTDOWN ─────────────────────────────────────────── */
+#countdown-section {
+  background: var(--terracotta);
+  padding: 56px 0;
+}
+#countdown-section .section-inner { text-align: center; }
+#countdown-section .section-label { color: rgba(255,255,255,0.65); }
+#countdown-section .section-title { color: #fff; }
+
+.countdown-row {
+  display: flex; gap: 0; margin-top: 32px;
+  justify-content: center;
+  border: 1px solid rgba(255,255,255,0.25);
+}
+.countdown-unit {
+  flex:1; padding: 24px 8px;
+  text-align: center;
+  border-right: 1px solid rgba(255,255,255,0.2);
+}
+.countdown-unit:last-child { border-right: none; }
+.countdown-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 48px; font-weight: 600; color: #fff;
+  line-height: 1;
+}
+.countdown-lbl {
+  font-size: 8px; font-weight: 400; letter-spacing: 2.5px;
+  text-transform: uppercase; color: rgba(255,255,255,0.6);
+  margin-top: 6px;
+}
+
+/* ─── EVENTS / SCHEDULE ─────────────────────────────────── */
+#events-section { background: var(--cream); padding: 80px 0; }
+
+.event-card {
+  width: 100%; margin-top: 24px;
+  border: 1px solid rgba(160,120,80,0.2);
+  background: var(--warm-white);
+  padding: 32px 28px;
+  position: relative; overflow: hidden;
+}
+.event-card::before {
+  content: ''; position: absolute;
+  left: 0; top: 0; bottom: 0; width: 3px;
+  background: var(--terracotta);
+}
+.event-card + .event-card { margin-top: 16px; }
+
+.event-tag {
+  font-size: 8px; font-weight: 500; letter-spacing: 3.5px;
+  text-transform: uppercase; color: var(--terracotta);
+  margin-bottom: 10px;
+}
+.event-title-big {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px; font-style: italic; color: var(--text-dark);
+  margin-bottom: 16px;
+}
+.event-row {
+  display: flex; align-items: flex-start; gap: 12px;
+  margin-bottom: 8px;
+}
+.event-icon { font-size: 14px; margin-top: 1px; flex-shrink: 0; }
+.event-detail-label {
+  font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--text-light); margin-bottom: 2px;
+}
+.event-detail-val {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px; color: var(--text-dark);
+}
+.event-detail-sub {
+  font-size: 12px; color: var(--text-light); margin-top: 1px;
+}
+
+/* ─── VENUE ─────────────────────────────────────────────── */
+#venue-section { background: var(--ivory); padding: 80px 0; }
+
+.venue-card {
+  width: 100%; margin-top: 32px;
+  background: var(--warm-white);
+  border: 1px solid rgba(160,120,80,0.2);
+}
+.venue-map-placeholder {
+  width: 100%; height: 180px;
+  background: linear-gradient(135deg, #d4e8c4 0%, #b8d4a8 50%, #9cbf8a 100%);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 36px; color: rgba(80,120,60,0.6);
+  position: relative; overflow: hidden;
+}
+.venue-map-placeholder::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, transparent 60%, rgba(250,246,240,0.3));
+}
+.venue-info { padding: 28px; }
+.venue-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px; font-style: italic; color: var(--text-dark);
+  margin-bottom: 8px;
+}
+.venue-addr {
+  font-size: 13px; font-weight: 300; line-height: 1.8;
+  color: var(--text-mid); margin-bottom: 16px;
+}
+.venue-cta {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 10px; font-weight: 400; letter-spacing: 2.5px;
+  text-transform: uppercase; color: var(--terracotta);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(196,98,58,0.3);
+  padding-bottom: 2px;
+  transition: color 0.2s, border-color 0.2s;
+}
+.venue-cta:hover { color: var(--deep-terracotta); border-color: var(--deep-terracotta); }
+
+/* ─── FOOTER ────────────────────────────────────────────── */
+#footer {
+  background: #1e1208; padding: 48px 0 60px;
+  text-align: center;
+}
+.footer-inner {
+  max-width: var(--max-w); margin: 0 auto; padding: 0 28px;
+}
+.footer-names {
+  font-family: 'Great Vibes', cursive;
+  font-size: 52px; color: rgba(196,98,58,0.7); line-height: 1;
+  margin-bottom: 16px;
+}
+.footer-date {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 14px; font-style: italic;
+  color: rgba(255,255,255,0.3); margin-bottom: 28px;
+}
+.footer-msg {
+  font-size: 12px; font-weight: 300; line-height: 1.9;
+  color: rgba(255,255,255,0.2);
+}
+
+/* ─── SCROLL REVEAL ─────────────────────────────────────── */
+.reveal {
+  opacity: 0; transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal.in-view { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.35s; }
+
+/* ─── FADE SLIDE ANIMATION ──────────────────────────────── */
+@keyframes fadeSlideUp {
+  from { opacity:0; transform:translateY(24px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+/* ─── DECORATIVE ELEMENTS ───────────────────────────────── */
+.peacock-divider {
+  display: flex; align-items: center; justify-content: center;
+  gap: 12px; padding: 32px 0 8px;
+  color: rgba(196,98,58,0.4); font-size: 20px;
+}
+
+.botanical-strip {
+  width: 100%; overflow: hidden;
+  height: 60px; display: flex; align-items: center;
+  justify-content: center; gap: 6px;
+  font-size: 20px; color: rgba(92,112,80,0.3);
+  background: var(--ivory);
+  letter-spacing: 4px;
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════ ENVELOPE OVERLAY ══════════════ -->
+<div id="envelope-overlay">
+  <div class="envelope-wrap">
+
+    <!-- SVG Envelope -->
+    <div class="envelope-svg-wrap" onclick="openInvite()">
+      <svg width="200" height="148" viewBox="0 0 200 148" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Envelope body -->
+        <rect x="1" y="1" width="198" height="146" rx="3" fill="#fdf8f2" stroke="#d4a86a" stroke-width="1.5"/>
+        <!-- Back flap shadow -->
+        <path d="M1 4 L100 78 L199 4" stroke="rgba(196,148,90,0.2)" stroke-width="1" fill="none"/>
+        <!-- Bottom left fold -->
+        <path d="M1 148 L80 80" stroke="rgba(196,148,90,0.18)" stroke-width="1"/>
+        <!-- Bottom right fold -->
+        <path d="M199 148 L120 80" stroke="rgba(196,148,90,0.18)" stroke-width="1"/>
+
+        <!-- Wax seal circle -->
+        <circle cx="100" cy="82" r="26" fill="#c4623a" opacity="0.9"/>
+        <circle cx="100" cy="82" r="22" fill="#c4623a" stroke="rgba(255,255,255,0.2)" stroke-width="0.8"/>
+
+        <!-- Seal lotus motif -->
+        <text x="100" y="88" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-size="20">🪷</text>
+
+        <!-- Envelope flap (top) -->
+        <path d="M1 4 L100 74 L199 4 Z" fill="#f5ede0" stroke="#d4a86a" stroke-width="1.5" stroke-linejoin="round"/>
+
+        <!-- Decorative border lines on flap -->
+        <path d="M8 8 L100 70 L192 8" stroke="rgba(196,148,90,0.3)" stroke-width="0.7" fill="none"/>
+      </svg>
+    </div>
+
+    <div>
+      <div class="envelope-label">You are cordially invited to the wedding of</div>
+      <div class="envelope-names">Arun & Thigsheetha</div>
+    </div>
+
+    <button class="open-btn" onclick="openInvite()">Open Invitation</button>
+  </div>
+</div>
+
+<!-- ══════════════ MAIN CONTENT ══════════════ -->
+<div id="main-content">
+
+  <!-- ── HERO ─────────────────────────────────── -->
+  <section id="hero">
+    <div class="hero-blob hero-blob-1"></div>
+    <div class="hero-blob hero-blob-2"></div>
+    <div class="hero-blob hero-blob-3"></div>
+
+    <!-- Falling petals (JS generated) -->
+    <div id="petals-container"></div>
+
+    <div class="hero-inner">
+
+      <!-- Lotus SVG top -->
+      <div class="lotus-top">
+        <svg width="80" height="40" viewBox="0 0 80 40" fill="none">
+          <path d="M40 38 C40 38 20 30 14 18 C8 6 22 0 30 8 C33 11 36 15 40 20 C44 15 47 11 50 8 C58 0 72 6 66 18 C60 30 40 38 40 38Z" fill="rgba(196,98,58,0.12)" stroke="rgba(196,98,58,0.35)" stroke-width="1"/>
+          <path d="M40 38 C40 38 28 28 26 20 C24 12 32 8 36 14 C37.5 16.5 39 20 40 24 C41 20 42.5 16.5 44 14 C48 8 56 12 54 20 C52 28 40 38 40 38Z" fill="rgba(196,98,58,0.18)" stroke="rgba(196,98,58,0.4)" stroke-width="0.8"/>
+          <circle cx="40" cy="36" r="3" fill="rgba(196,98,58,0.5)"/>
+          <!-- Small dots / stamens -->
+          <circle cx="33" cy="30" r="1.2" fill="rgba(200,148,58,0.5)"/>
+          <circle cx="47" cy="30" r="1.2" fill="rgba(200,148,58,0.5)"/>
+          <circle cx="38" cy="32" r="1" fill="rgba(200,148,58,0.4)"/>
+          <circle cx="42" cy="32" r="1" fill="rgba(200,148,58,0.4)"/>
+        </svg>
+      </div>
+
+      <div class="eyebrow">Together with our families</div>
+      <div class="hero-invite-text">we joyfully invite you to celebrate the wedding of</div>
+
+      <div class="hero-name">Arun</div>
+      <div class="and-divider">
+        <div class="and-line"></div>
+        <div class="and-word">and</div>
+        <div class="and-line"></div>
+      </div>
+      <div class="hero-name hero-name-2">Thigsheetha</div>
+
+      <div class="hero-date-block">
+        <div class="hero-date-label">Save the dates</div>
+        <div class="hero-date">July 4 & 5, 2026</div>
+        <div class="hero-date-sub">Chennai, Tamil Nadu</div>
+      </div>
+    </div>
+
+    <div class="scroll-nudge">
+      <span>Scroll</span>
+      <div class="scroll-arrow">
+        <svg width="14" height="20" viewBox="0 0 14 20" fill="none">
+          <path d="M7 1 L7 17 M1 11 L7 17 L13 11" stroke="rgba(160,120,80,0.6)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── BOTANICAL STRIP ─────────────────── -->
+  <div class="botanical-strip">🌸 🍃 🌺 🍃 🌸 🍃 🌺 🍃 🌸 🍃 🌺 🍃 🌸 🍃 🌺 🍃 🌸</div>
+
+  <!-- ── COUNTDOWN ───────────────────────── -->
+  <section id="countdown-section">
+    <div class="section-inner">
+      <div class="section-label reveal">Counting Down</div>
+      <div class="section-title reveal reveal-delay-1">The big day is almost here</div>
+      <div class="countdown-row reveal reveal-delay-2">
+        <div class="countdown-unit">
+          <div class="countdown-num" id="cd-days">--</div>
+          <div class="countdown-lbl">Days</div>
+        </div>
+        <div class="countdown-unit">
+          <div class="countdown-num" id="cd-hours">--</div>
+          <div class="countdown-lbl">Hours</div>
+        </div>
+        <div class="countdown-unit">
+          <div class="countdown-num" id="cd-mins">--</div>
+          <div class="countdown-lbl">Minutes</div>
+        </div>
+        <div class="countdown-unit">
+          <div class="countdown-num" id="cd-secs">--</div>
+          <div class="countdown-lbl">Seconds</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── EVENTS ──────────────────────────── -->
+  <section id="events-section">
+    <div class="section-inner">
+      <div class="section-label reveal">The Celebrations</div>
+      <div class="section-title reveal reveal-delay-1">Two beautiful evenings</div>
+      <div class="section-body reveal reveal-delay-2">Join us for the reception and the wedding ceremony — two celebrations filled with joy, music, and love.</div>
+
+      <!-- Reception Card -->
+      <div class="event-card reveal reveal-delay-2">
+        <div class="event-tag">Night One · Reception</div>
+        <div class="event-title-big">An Evening of Celebration</div>
+        <div class="event-row">
+          <div class="event-icon">📅</div>
+          <div>
+            <div class="event-detail-label">Date</div>
+            <div class="event-detail-val">Saturday, July 4th 2026</div>
+          </div>
+        </div>
+        <div class="event-row">
+          <div class="event-icon">🕡</div>
+          <div>
+            <div class="event-detail-label">Time</div>
+            <div class="event-detail-val">6:30 PM onwards</div>
+            <div class="event-detail-sub">Dinner & celebration to follow</div>
+          </div>
+        </div>
+        <div class="event-row">
+          <div class="event-icon">📍</div>
+          <div>
+            <div class="event-detail-label">Venue</div>
+            <div class="event-detail-val">Sri Vidhur Hall</div>
+            <div class="event-detail-sub">Zamin Pallavaram, Chennai</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Wedding Card -->
+      <div class="event-card reveal reveal-delay-3">
+        <div class="event-tag">Day Two · Wedding Ceremony</div>
+        <div class="event-title-big">The Sacred Ceremony</div>
+        <div class="event-row">
+          <div class="event-icon">📅</div>
+          <div>
+            <div class="event-detail-label">Date</div>
+            <div class="event-detail-val">Sunday, July 5th 2026</div>
+          </div>
+        </div>
+        <div class="event-row">
+          <div class="event-icon">🕡</div>
+          <div>
+            <div class="event-detail-label">Time</div>
+            <div class="event-detail-val">6:30 AM – 7:30 AM</div>
+            <div class="event-detail-sub">Please arrive by 6:00 AM</div>
+          </div>
+        </div>
+        <div class="event-row">
+          <div class="event-icon">📍</div>
+          <div>
+            <div class="event-detail-label">Venue</div>
+            <div class="event-detail-val">Sri Vidhur Hall</div>
+            <div class="event-detail-sub">Zamin Pallavaram, Chennai</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── PEACOCK DIVIDER ─────────────────── -->
+  <div style="display:flex;align-items:center;justify-content:center;padding:20px 0;background:var(--cream);">
+    <svg width="260" height="24" viewBox="0 0 260 24" fill="none">
+      <line x1="0" y1="12" x2="108" y2="12" stroke="rgba(160,120,80,0.2)" stroke-width="1"/>
+      <path d="M115 12 C118 7 122 5 126 7 C128 8 129 10 130 12 C131 10 132 8 134 7 C138 5 142 7 145 12 C142 17 138 19 134 17 C132 16 131 14 130 12 C129 14 128 16 126 17 C122 19 118 17 115 12Z" fill="rgba(196,98,58,0.3)"/>
+      <circle cx="130" cy="12" r="2.5" fill="rgba(196,98,58,0.5)"/>
+      <line x1="152" y1="12" x2="260" y2="12" stroke="rgba(160,120,80,0.2)" stroke-width="1"/>
+    </svg>
+  </div>
+
+  <!-- ── VENUE ────────────────────────────── -->
+  <section id="venue-section">
+    <div class="section-inner">
+      <div class="section-label reveal">Where to Find Us</div>
+      <div class="section-title reveal reveal-delay-1">Sri Vidhur Hall</div>
+      <div class="section-body reveal reveal-delay-2">Nestled in Zamin Pallavaram, our venue is the perfect backdrop for these cherished celebrations.</div>
+
+      <div class="venue-card reveal reveal-delay-3">
+        <!-- Illustrated map placeholder -->
+        <div class="venue-map-placeholder">
+          <svg width="100%" height="100%" viewBox="0 0 480 180" preserveAspectRatio="xMidYMid slice">
+            <!-- Road network -->
+            <rect width="480" height="180" fill="#d4e8c4"/>
+            <rect x="0" y="70" width="480" height="14" fill="#e8e0d0" opacity="0.8"/>
+            <rect x="0" y="84" width="480" height="3" fill="#d4c8b0" opacity="0.5"/>
+            <rect x="180" y="0" width="14" height="180" fill="#e8e0d0" opacity="0.8"/>
+            <rect x="310" y="0" width="14" height="180" fill="#e8e0d0" opacity="0.7"/>
+            <!-- Blocks -->
+            <rect x="20" y="20" width="140" height="40" rx="3" fill="#c8dab8" opacity="0.5"/>
+            <rect x="20" y="96" width="140" height="60" rx="3" fill="#c8dab8" opacity="0.5"/>
+            <rect x="210" y="20" width="80" height="40" rx="3" fill="#c8dab8" opacity="0.4"/>
+            <rect x="340" y="20" width="120" height="40" rx="3" fill="#c8dab8" opacity="0.4"/>
+            <rect x="340" y="96" width="120" height="60" rx="3" fill="#c8dab8" opacity="0.4"/>
+            <!-- Venue pin -->
+            <circle cx="240" cy="96" r="22" fill="rgba(196,98,58,0.9)"/>
+            <circle cx="240" cy="93" r="10" fill="white" opacity="0.9"/>
+            <path d="M240 103 L234 96 L246 96 Z" fill="rgba(196,98,58,0.9)"/>
+            <text x="240" y="97" text-anchor="middle" fill="rgba(196,98,58,0.9)" font-size="10" font-weight="bold">●</text>
+            <!-- Label -->
+            <rect x="188" y="122" width="104" height="22" rx="3" fill="white" opacity="0.9"/>
+            <text x="240" y="136" text-anchor="middle" fill="#9b3d1e" font-size="10" font-family="sans-serif">Sri Vidhur Hall</text>
+          </svg>
+        </div>
+        <div class="venue-info">
+          <div class="venue-name">Sri Vidhur Hall</div>
+          <div class="venue-addr">
+            No. 211, 10A, 200 Feet Radial Road<br>
+            Arulmurugan Nagar, Zamin Pallavaram<br>
+            Chennai, Tamil Nadu 600117
+          </div>
+          <a class="venue-cta" href="https://maps.google.com/?q=Sri+Vidhur+Hall+Zamin+Pallavaram+Chennai" target="_blank">
+            Get Directions
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path d="M2 10 L10 2 M10 2 H4 M10 2 V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ──────────────────────────── -->
+  <footer id="footer">
+    <div class="footer-inner">
+      <div class="footer-names">Arun & Thigsheetha</div>
+      <div class="footer-date">July 4 & 5, 2026 · Chennai, Tamil Nadu</div>
+      <div class="footer-msg">
+        Can't wait to celebrate with our favourite people 🦚<br>
+        <span style="opacity:0.5">Made with love</span>
+      </div>
+    </div>
+  </footer>
+
+</div><!-- end #main-content -->
+
+<script>
+/* ─── OPEN INVITE ─────────────────────────────────── */
+function openInvite() {
+  const overlay = document.getElementById('envelope-overlay');
+  const main = document.getElementById('main-content');
+  overlay.classList.add('hidden');
+  setTimeout(() => {
+    overlay.style.display = 'none';
+    main.classList.add('visible');
+    startPetals();
+    startCountdown();
+  }, 1100);
+}
+
+/* ─── FALLING PETALS ──────────────────────────────── */
+function startPetals() {
+  const container = document.getElementById('petals-container');
+  const petals = ['🌸','🌺','🏵️','🌼'];
+  for (let i = 0; i < 18; i++) {
+    const p = document.createElement('div');
+    p.classList.add('petal');
+    p.textContent = petals[Math.floor(Math.random() * petals.length)];
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.animationDuration = (6 + Math.random() * 8) + 's';
+    p.style.animationDelay = (Math.random() * 12) + 's';
+    p.style.fontSize = (10 + Math.random() * 10) + 'px';
+    container.appendChild(p);
+  }
+}
+
+/* ─── COUNTDOWN ───────────────────────────────────── */
+function startCountdown() {
+  const target = new Date('2026-07-04T18:30:00+05:30');
+  function update() {
+    const now = new Date();
+    const diff = target - now;
+    if (diff <= 0) {
+      document.getElementById('cd-days').textContent = '0';
+      document.getElementById('cd-hours').textContent = '0';
+      document.getElementById('cd-mins').textContent = '0';
+      document.getElementById('cd-secs').textContent = '0';
+      return;
+    }
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor((diff % 86400000) / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    document.getElementById('cd-days').textContent = String(d).padStart(2,'0');
+    document.getElementById('cd-hours').textContent = String(h).padStart(2,'0');
+    document.getElementById('cd-mins').textContent = String(m).padStart(2,'0');
+    document.getElementById('cd-secs').textContent = String(s).padStart(2,'0');
+  }
+  update(); setInterval(update, 1000);
+}
+
+/* ─── SCROLL REVEAL ───────────────────────────────── */
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in-view'); });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+
+</script>
+</body>
+</html>
