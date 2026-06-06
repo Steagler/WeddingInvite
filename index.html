@@ -375,6 +375,47 @@ section {
 }
 .venue-cta:hover { color: var(--deep-terracotta); border-color: var(--deep-terracotta); }
 
+/* ─── MUSIC BUTTON ──────────────────────────────────────── */
+#music-btn {
+  position: fixed; bottom: 28px; right: 24px; z-index: 500;
+  width: 48px; height: 48px; border-radius: 50%;
+  background: var(--terracotta);
+  border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 20px rgba(196,98,58,0.4);
+  transition: transform 0.2s, background 0.2s;
+  opacity: 0; pointer-events: none;
+  animation: none;
+}
+#music-btn.visible { opacity: 1; pointer-events: auto; }
+#music-btn:hover { transform: scale(1.1); background: var(--deep-terracotta); }
+#music-btn.playing .icon-play { display: none; }
+#music-btn.playing .icon-pause { display: flex; }
+#music-btn:not(.playing) .icon-play { display: flex; }
+#music-btn:not(.playing) .icon-pause { display: none; }
+
+.music-ripple {
+  position: absolute; inset: 0; border-radius: 50%;
+  border: 2px solid rgba(196,98,58,0.5);
+  animation: ripple 2s ease-out infinite;
+  pointer-events: none;
+}
+.music-ripple:nth-child(2) { animation-delay: 0.7s; }
+@keyframes ripple {
+  0%   { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+.music-label {
+  position: fixed; bottom: 34px; right: 82px; z-index: 500;
+  font-size: 10px; font-weight: 400; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--text-light);
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s;
+  white-space: nowrap;
+}
+#music-btn.visible ~ .music-label { opacity: 1; }
+
 /* ─── FOOTER ────────────────────────────────────────────── */
 #footer {
   background: #1e1208; padding: 48px 0 60px;
@@ -701,6 +742,24 @@ section {
 
 </div><!-- end #main-content -->
 
+<!-- ── MUSIC BUTTON ─────────────────────────────── -->
+<button id="music-btn" aria-label="Toggle music">
+  <div class="music-ripple"></div>
+  <div class="music-ripple"></div>
+  <span class="icon-play">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+      <path d="M5 3.5 L13 8 L5 12.5 Z" fill="white"/>
+    </svg>
+  </span>
+  <span class="icon-pause" style="gap:3px;">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+      <rect x="2" y="2" width="4" height="10" rx="1" fill="white"/>
+      <rect x="8" y="2" width="4" height="10" rx="1" fill="white"/>
+    </svg>
+  </span>
+</button>
+<div class="music-label">♪ Wedding melody</div>
+
 <script>
 /* ─── OPEN INVITE ─────────────────────────────────── */
 function openInvite() {
@@ -712,6 +771,11 @@ function openInvite() {
     main.classList.add('visible');
     startPetals();
     startCountdown();
+    // Show music button & auto-play
+    setTimeout(() => {
+      document.getElementById('music-btn').classList.add('visible');
+      startMusic();
+    }, 600);
   }, 1100);
 }
 
@@ -761,6 +825,50 @@ const observer = new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in-view'); });
 }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+/* ─── MUSIC ENGINE ────────────────────────────────────── */
+// 👇 STEP 1: Paste your Google Drive direct link here
+const MUSIC_URL = 'https://www.dropbox.com/scl/fi/9r6scxhg97gjg8uh39yhu/Perfect-Instrumental.mp3?rlkey=qj81ki9b16wnsp22bzv8yn9aa&st=retxm5y4&raw=1';
+// Example: 'https://drive.google.com/uc?export=download&id=1aBcDeFgHiJkLmNoPqRsTuVwXyZ'
+
+let musicPlaying = false;
+let bgAudio = null;
+
+function initAudio() {
+  if (bgAudio) return;
+  bgAudio = new Audio(MUSIC_URL);
+  bgAudio.loop = true;
+  bgAudio.volume = 0;
+}
+
+function startMusic() {
+  initAudio();
+  bgAudio.play().catch(() => {}); // catch autoplay block silently
+  let vol = 0;
+  const fade = setInterval(() => {
+    vol = Math.min(parseFloat((vol + 0.05).toFixed(2)), 0.8);
+    bgAudio.volume = vol;
+    if (vol >= 0.8) clearInterval(fade);
+  }, 100);
+  musicPlaying = true;
+  document.getElementById('music-btn').classList.add('playing');
+}
+
+function stopMusic() {
+  if (!bgAudio) return;
+  let vol = bgAudio.volume;
+  const fade = setInterval(() => {
+    vol = Math.max(parseFloat((vol - 0.05).toFixed(2)), 0);
+    bgAudio.volume = vol;
+    if (vol <= 0) { bgAudio.pause(); clearInterval(fade); }
+  }, 80);
+  musicPlaying = false;
+  document.getElementById('music-btn').classList.remove('playing');
+}
+
+document.getElementById('music-btn').addEventListener('click', () => {
+  if (musicPlaying) { stopMusic(); } else { startMusic(); }
+});
 
 
 </script>
